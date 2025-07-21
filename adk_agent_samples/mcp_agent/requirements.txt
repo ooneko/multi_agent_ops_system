@@ -1,0 +1,11 @@
+# Google ADK 和相关依赖
+google-adk>=1.7.0
+
+# LiteLLM - 统一 LLM 接口
+litellm>=1.74.0
+
+# 环境变量管理
+python-dotenv>=1.0.0
+
+# MCP 协议支持（由 google-adk 自动安装）
+# mcp>=1.12.0
