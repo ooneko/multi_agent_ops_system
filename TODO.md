@@ -1,0 +1,5 @@
+- [x] 验证ADK 调用 MCP
+- [ ] 验证ADK 分解任务，并调用不同的agent，比如 root agent 分解后，交付平台agent需要看看acpoc服务的真实状态， 
+- [ ] 从交付平台查询有多少台服务器，然后通过ansible或者clustershell 在这些服务器上查找日志。
+- [ ] 从交付平台查询某一台台服务器，然后通过ssh在这台服务器上查找日志（或者进行诊断）。
+- [ ] root agent 调度 acpoc agent，acpoc agent 调度 acpoc mcp 进行获取。
