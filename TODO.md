@@ -3,3 +3,5 @@
 - [ ] 从交付平台查询有多少台服务器，然后通过ansible或者clustershell 在这些服务器上查找日志。
 - [ ] 从交付平台查询某一台台服务器，然后通过ssh在这台服务器上查找日志（或者进行诊断）。
 - [ ] root agent 调度 acpoc agent，acpoc agent 调度 acpoc mcp 进行获取。
+- [ ] 实现 human in loop 功能
+- [ ] 实现 evaluate

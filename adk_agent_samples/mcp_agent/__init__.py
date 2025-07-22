@@ -1,1 +1,1 @@
-from . import agent
+# MCP Agent module

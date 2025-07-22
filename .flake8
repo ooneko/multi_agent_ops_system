@@ -1,0 +1,5 @@
+[flake8]
+# 忽略长行检查
+max-line-length = 120
+# 或者完全忽略 E501
+# ignore = E501

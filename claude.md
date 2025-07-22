@@ -1,5 +1,81 @@
 # AI Agent 开发技术栈
 
+## 虚拟环境管理 (uv)
+### 创建和激活虚拟环境
+```bash
+# 创建虚拟环境
+uv venv
+
+# 激活虚拟环境 (macOS/Linux)
+source .venv/bin/activate
+
+# 激活虚拟环境 (Windows)
+.venv\Scripts\activate
+
+# 退出虚拟环境
+deactivate
+```
+
+### 管理依赖
+```bash
+# 安装单个包
+uv pip install package-name
+
+# 从 requirements.txt 安装
+uv pip install -r requirements.txt
+
+# 安装项目依赖（如果有 pyproject.toml）
+uv pip install -e .
+
+# 生成依赖列表
+uv pip freeze > requirements.txt
+
+# 同步依赖（确保环境与 requirements.txt 完全一致）
+uv pip sync requirements.txt
+```
+
+### uv 的优势
+- **极速安装**: 比 pip 快 10-100 倍
+- **智能缓存**: 自动缓存下载的包，避免重复下载
+- **内存安全**: 用 Rust 编写，避免了内存相关的问题
+- **兼容性好**: 完全兼容 pip 命令，可以无缝切换
+
+### 在项目中使用 uv
+```bash
+# 进入项目目录
+cd /path/to/project
+
+# 创建虚拟环境
+uv venv
+
+# 激活虚拟环境
+source .venv/bin/activate
+
+# 安装项目依赖
+uv pip install -r requirements.txt
+
+# 开始开发
+python your_script.py
+```
+
+### 常用 uv 命令
+```bash
+# 查看已安装的包
+uv pip list
+
+# 查看包信息
+uv pip show package-name
+
+# 卸载包
+uv pip uninstall package-name
+
+# 升级包
+uv pip install --upgrade package-name
+
+# 清理缓存
+uv cache clean
+```
+
 ## Google ADK (Agent Development Kit)
 
 ### 概述
