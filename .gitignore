@@ -16,7 +16,7 @@ env/
 ENV/
 virtualenv/
 .virtualenv
-.venv
+.env
 
 # IDE
 .idea/

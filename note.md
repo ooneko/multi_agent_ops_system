@@ -897,3 +897,102 @@ spec:
    - 实现熔断机制防止级联故障
 
 这个协同使用方案展示了如何将这些技术栈有机结合，构建一个强大、灵活且可扩展的多智能体系统。
+
+## Google ADK 评估框架 (Evaluate)
+
+### 概述
+Google ADK 提供了专门的评估框架，用于测试和评估 AI Agent 的性能。与传统软件测试不同，AI Agent 评估需要考虑其概率性特征，不能简单使用"通过/失败"的断言。
+
+### 核心概念
+1. **评估内容**
+   - 最终输出质量
+   - Agent 执行路径 (trajectory)
+   - 工具使用策略
+   - 推理过程的合理性
+
+2. **测试用例格式**
+   - **单一测试文件** (test.json): 适合简单交互
+   - **评估集文件** (evalset.json): 适合复杂多轮对话
+
+3. **主要评估指标**
+   - `tool_trajectory_avg_score`: 评估工具使用准确性
+   - `response_match_score`: 使用 ROUGE 度量响应相似度
+
+### 在运维 Agent 系统中的应用
+
+#### 1. 评估策略
+- **工具使用准确性**: Agent 是否选择了正确的工具和参数
+- **任务完成质量**: 运维操作的结果是否符合预期
+- **执行路径合理性**: Agent 的决策过程是否高效合理
+- **错误处理能力**: 面对异常情况的处理是否恰当
+
+#### 2. 评估数据集示例
+```json
+{
+  "test_name": "health_check_evaluation",
+  "cases": [
+    {
+      "name": "正常服务器健康检查",
+      "input": "检查生产环境服务器健康状态",
+      "expected_tool_trajectory": [
+        {
+          "tool_name": "get_server_list",
+          "parameters": {"filter": {"tags": ["production"]}}
+        },
+        {
+          "tool_name": "execute_health_check",
+          "parameters": {"server_ids": ["server-001", "server-002"]}
+        }
+      ],
+      "expected_response": {
+        "contains": ["健康度", "CPU使用率", "内存使用率", "服务状态"]
+      }
+    }
+  ]
+}
+```
+
+#### 3. 评估实现示例
+```python
+import pytest
+from google.adk.evaluation import AgentEvaluator
+
+@pytest.mark.asyncio
+async def test_health_check_scenarios():
+    """评估健康检查场景"""
+    await AgentEvaluator.evaluate(
+        agent_module="cz_agent_with_op_agent",
+        eval_dataset_file_path_or_dir="tests/evaluation/datasets/health_check.evalset.json",
+        config={
+            "tool_trajectory_match_threshold": 0.9,
+            "response_match_threshold": 0.85
+        }
+    )
+```
+
+#### 4. 评估指标体系
+1. **功能性指标**
+   - 工具调用准确率: ≥ 0.9
+   - 任务完成率: ≥ 0.95
+   - 响应相关性: ≥ 0.85
+
+2. **性能指标**
+   - 平均响应时间: < 30s
+   - 并发处理能力: ≥ 10 servers
+
+3. **可靠性指标**
+   - 错误处理覆盖率: 100%
+   - 故障恢复成功率: ≥ 0.9
+
+#### 5. 持续改进流程
+1. 建立初始性能基准
+2. 定期运行完整评估套件
+3. 识别低分区域和改进点
+4. 基于评估结果优化 Agent 行为
+5. 确保新改动不影响现有功能
+
+### 最佳实践
+- 为每个主要功能场景创建评估数据集
+- 设置合理的阈值，允许 AI 的创造性响应
+- 定期更新评估数据集以覆盖新场景
+- 将评估集成到 CI/CD 流程中

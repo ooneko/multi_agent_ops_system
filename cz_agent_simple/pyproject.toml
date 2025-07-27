@@ -1,0 +1,53 @@
+[project]
+name = "cz-agent-simple"
+version = "1.0.0"
+description = "沧竹Agent - 基于LangChain + LangGraph的智能运维助手"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    # Core dependencies
+    "langchain>=0.1.0",
+    "langgraph>=0.0.20",
+    "litellm>=1.0.0",
+    "python-dotenv>=1.0.0",
+    
+    # MCP dependencies
+    "mcp>=0.1.0",
+    
+    # Async support
+    "aiohttp>=3.9.0",
+    
+    # Data handling
+    "pydantic>=2.0.0",
+    "typing-extensions>=4.8.0",
+    
+    # Utils
+    "python-dateutil>=2.8.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-mock>=3.12.0",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0", 
+    "pytest-mock>=3.12.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["test_*.py"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+
+[tool.hatch.build.targets.wheel]
+packages = ["cz_agent_simple"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
